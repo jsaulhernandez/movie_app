@@ -25,7 +25,7 @@ class TrendingMovies extends StatelessWidget {
 
           if (state is DataLoaded) {
             return FanCarouselImageSlider.sliderType1(
-              imagesLink: state.data
+              imagesLink: (state.data as List<MovieEntity>)
                   .map(
                     (item) =>
                         AppImages.movieImageBasePath +
