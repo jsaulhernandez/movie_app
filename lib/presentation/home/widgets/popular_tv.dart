@@ -25,17 +25,18 @@ class PopularTv extends StatelessWidget {
             return SizedBox(
               height: 300,
               child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemBuilder: (context, index) {
-                    return TVCard(
-                      tvEntity: state.data[index],
-                    );
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(
-                        width: 10,
-                      ),
-                  itemCount: state.data.length),
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemBuilder: (context, index) {
+                  return TVCard(
+                    tvEntity: state.data[index],
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                  width: 10,
+                ),
+                itemCount: state.data.length,
+              ),
             );
           }
 
