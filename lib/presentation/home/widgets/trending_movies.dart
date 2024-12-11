@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
+import 'package:movie_app/common/bloc/generic_data_cubit.dart';
+import 'package:movie_app/common/bloc/generic_data_state.dart';
 import 'package:movie_app/core/configs/assets/app_images.dart';
-import 'package:movie_app/presentation/home/bloc/trending_cubit.dart';
-import 'package:movie_app/presentation/home/bloc/trending_state.dart';
+import 'package:movie_app/domain/movie/entities/movie.dart';
+import 'package:movie_app/domain/movie/usecases/get_trending_movies.dart';
+import 'package:movie_app/service_locator.dart';
 
 class TrendingMovies extends StatelessWidget {
   const TrendingMovies({super.key});
@@ -12,16 +15,17 @@ class TrendingMovies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TrendingCubit()..getTrendingMovies(),
-      child: BlocBuilder<TrendingCubit, TrendingState>(
+      create: (context) => GenericDataCubit()
+        ..getData<List<MovieEntity>>(sl<GetTrendingMoviesUseCase>()),
+      child: BlocBuilder<GenericDataCubit, GenericDataState>(
         builder: (context, state) {
-          if (state is TrendingMoviesLoading) {
+          if (state is DataLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state is TrendingMoviesLoaded) {
+          if (state is DataLoaded) {
             return FanCarouselImageSlider.sliderType1(
-              imagesLink: state.movies
+              imagesLink: state.data
                   .map(
                     (item) =>
                         AppImages.movieImageBasePath +
@@ -35,7 +39,7 @@ class TrendingMovies extends StatelessWidget {
             );
           }
 
-          if (state is FailureLoadTrendingMovies) {
+          if (state is FailureLoadData) {
             return Center(child: Text(state.errorMessage));
           }
 
