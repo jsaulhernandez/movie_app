@@ -15,8 +15,16 @@ class MovieWatchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BasicAppbar(
+      appBar: BasicAppbar(
         hideBack: false,
+        title: Text(
+          movieEntity.title!,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
