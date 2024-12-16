@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CategoryText(title: 'Trendings 🔥'),
+            CategoryText(title: 'Trending 🔥'),
             TrendingMovies(),
             SizedBox(
               height: 16,
