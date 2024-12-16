@@ -45,36 +45,37 @@ class TVCard extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
                       tvEntity.name!,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                          fontSize: 16,
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 16,
-                          color: Colors.amber,
+                  ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.star,
+                        size: 16,
+                        color: Colors.amber,
+                      ),
+                      Text(
+                        ' ${tvEntity.voteAverage!.toStringAsFixed(1)}',
+                        style: const TextStyle(
+                          fontSize: 10,
                         ),
-                        Text(
-                          ' ${tvEntity.voteAverage!.toStringAsFixed(1)}',
-                          style: const TextStyle(fontSize: 10),
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ],
+                  )
+                ],
               ),
-            ),
+            )
           ],
         ),
       ),
