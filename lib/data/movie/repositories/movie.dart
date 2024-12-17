@@ -43,6 +43,10 @@ class MovieRepositoryImpl extends MovieRepository {
     return getTrailer.fold((error) {
       return Left(error);
     }, (data) {
+      if (data['trailer'] == null || data['trailer'].isEmpty) {
+        return const Left("No trailer available for this movie.");
+      }
+
       var trailer =
           TrailerMapper.toEntity(TrailerModel.fromJson(data['trailer']));
       return Right(trailer);

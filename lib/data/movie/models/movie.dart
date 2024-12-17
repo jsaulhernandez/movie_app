@@ -47,7 +47,7 @@ class MovieModel {
       genreIds: json["genre_ids"] == null
           ? []
           : List<int>.from(json["genre_ids"]!.map((x) => x)),
-      popularity: json["popularity"],
+      popularity: double.tryParse(json["popularity"].toString()),
       releaseDate: DateTime.tryParse(json["release_date"] ?? ""),
       video: json["video"],
       voteAverage: double.tryParse(json["vote_average"].toString()),
