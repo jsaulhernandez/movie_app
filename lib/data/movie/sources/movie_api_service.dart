@@ -43,7 +43,13 @@ class MovieApiServiceImpl extends MovieApiService {
 
       return Right(response.data);
     } on DioException catch (e) {
-      return Left(e.response!.data['message']);
+      // Handle 404 error (Not Found)
+      if (e.response?.statusCode == 404) {
+        return const Left("No trailer available for this movie.");
+      }
+
+      return Left(e.response?.data['message'] ??
+          "An error occurred while fetching the trailer.");
     }
   }
 
