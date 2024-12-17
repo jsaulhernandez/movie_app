@@ -7,12 +7,6 @@ import 'package:movie_app/service_locator.dart';
 
 class TvRepositoryImpl extends TvRepository {
   @override
-  Future<Either> getKeywords(int tvId) {
-    // TODO: implement getKeywords
-    throw UnimplementedError();
-  }
-
-  @override
   Future<Either> getPopularTV() async {
     var popularTv = await sl<TvApiService>().getPopularTV();
 
@@ -29,14 +23,36 @@ class TvRepositoryImpl extends TvRepository {
   }
 
   @override
-  Future<Either> getRecommendationTVs(int tvId) {
-    // TODO: implement getRecommendationTVs
-    throw UnimplementedError();
+  Future<Either> getRecommendationTVs(int tvId) async {
+    var recommendations = await sl<TvApiService>().getRecommendationTVs(tvId);
+
+    return recommendations.fold((error) {
+      return Left(error);
+    }, (data) {
+      var movies = List.from(data['content'])
+          .map((item) => TvMapper.toEntity(TVModel.fromJson(item)))
+          .toList();
+      return Right(movies);
+    });
   }
 
   @override
-  Future<Either> getSimilarTVs(int tvId) {
-    // TODO: implement getSimilarTVs
+  Future<Either> getSimilarTVs(int tvId) async {
+    var similar = await sl<TvApiService>().getSimilarTVs(tvId);
+
+    return similar.fold((error) {
+      return Left(error);
+    }, (data) {
+      var movies = List.from(data['content'])
+          .map((item) => TvMapper.toEntity(TVModel.fromJson(item)))
+          .toList();
+      return Right(movies);
+    });
+  }
+
+  @override
+  Future<Either> getKeywords(int tvId) {
+    // TODO: implement getKeywords
     throw UnimplementedError();
   }
 

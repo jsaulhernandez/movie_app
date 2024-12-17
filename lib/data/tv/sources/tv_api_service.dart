@@ -6,6 +6,10 @@ import 'package:movie_app/service_locator.dart';
 
 abstract class TvApiService {
   Future<Either> getPopularTV();
+  Future<Either> getRecommendationTVs(int tvId);
+  Future<Either> getSimilarTVs(int tvId);
+  Future<Either> getKeywords(int tvId);
+  Future<Either> searchTV(String query);
 }
 
 class TvApiServiceImpl extends TvApiService {
@@ -18,5 +22,43 @@ class TvApiServiceImpl extends TvApiService {
     } on DioException catch (e) {
       return Left(e.response!.data['message']);
     }
+  }
+
+  @override
+  Future<Either> getRecommendationTVs(int tvId) async {
+    try {
+      var response = await sl<DioClient>().get(
+        '${ApiUrl.tv}$tvId/recommendations',
+      );
+
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(e.response!.data['message']);
+    }
+  }
+
+  @override
+  Future<Either> getSimilarTVs(int tvId) async {
+    try {
+      var response = await sl<DioClient>().get(
+        '${ApiUrl.tv}$tvId/similar',
+      );
+
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(e.response!.data['message']);
+    }
+  }
+
+  @override
+  Future<Either> searchTV(String query) {
+    // TODO: implement searchTV
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either> getKeywords(int tvId) {
+    // TODO: implement getKeywords
+    throw UnimplementedError();
   }
 }
