@@ -69,8 +69,23 @@ class MovieRepositoryImpl extends MovieRepository {
 
   @override
   Future<Either> getSimilarMovies(int movieId) async {
-    var returnedData = await sl<MovieApiService>().getSimilarMovies(movieId);
-    return returnedData.fold((error) {
+    var similar = await sl<MovieApiService>().getSimilarMovies(movieId);
+
+    return similar.fold((error) {
+      return Left(error);
+    }, (data) {
+      var movies = List.from(data['content'])
+          .map((item) => MovieMapper.toEntity(MovieModel.fromJson(item)))
+          .toList();
+      return Right(movies);
+    });
+  }
+
+  @override
+  Future<Either> searchMovie(String query) async {
+    var result = await sl<MovieApiService>().searchMovie(query);
+
+    return result.fold((error) {
       return Left(error);
     }, (data) {
       var movies = List.from(data['content'])

@@ -66,8 +66,16 @@ class TvRepositoryImpl extends TvRepository {
   }
 
   @override
-  Future<Either> searchTV(String query) {
-    // TODO: implement searchTV
-    throw UnimplementedError();
+  Future<Either> searchTV(String query) async {
+    var result = await sl<TvApiService>().searchTV(query);
+
+    return result.fold((error) {
+      return Left(error);
+    }, (data) {
+      var movies = List.from(data['content'])
+          .map((item) => TvMapper.toEntity(TVModel.fromJson(item)))
+          .toList();
+      return Right(movies);
+    });
   }
 }
