@@ -57,8 +57,14 @@ class TvApiServiceImpl extends TvApiService {
   }
 
   @override
-  Future<Either> getKeywords(int tvId) {
-    // TODO: implement getKeywords
-    throw UnimplementedError();
+  Future<Either> getKeywords(int tvId) async {
+    try {
+      var response = await sl<DioClient>().get(
+        '${ApiUrl.tv}$tvId/keywords',
+      );
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(e.response!.data['message']);
+    }
   }
 }
